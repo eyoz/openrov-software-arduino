@@ -2,6 +2,7 @@
 #if(HAS_MS5837_30BA)
 
 #include "CMS5837_30BA.h"
+#include "NDataManager.h"
 #include "NCommManager.h"
 
 using namespace ms5837_30ba;
@@ -135,6 +136,9 @@ void CMS5837_30BA::Update( CCommand& commandIn )
 	{
 		if( m_device.m_data.SampleAvailable() )
 		{
+			NDataManager::m_environmentData.TEMP = m_device.m_data.temperature_c;
+			NDataManager::m_environmentData.PRES = m_device.m_data.pressure_mbar;
+			NDataManager::m_navData.DEEP = m_device.m_data.depth_m;
 			// Report results
 			Serial.print( F( "depth_t:" ) );	Serial.print( orutil::Encode1K( m_device.m_data.temperature_c ) ); 	Serial.print( ';' );
 			Serial.print( F( "depth_p:" ) );	Serial.print( orutil::Encode1K( m_device.m_data.pressure_mbar ) ); 	Serial.print( ';' );
